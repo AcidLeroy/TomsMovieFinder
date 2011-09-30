@@ -1,0 +1,14 @@
+Dear Tom,
+
+	I have not yet added the views, but the controller and models are there. There are still a fews teaks I need to do. In order to run this you are going to need the latest version of Java Run Time Environment. Here are a few of the functions that are built in: 
+
+	1: You can specify what movie formats you can search for. 
+	2: You can specify the depth of directories you initially want to look for. I.e. if you know you have movies buried deep in your directory structure on you server, you may want to set the depth of searching >6 or 7. This however REALLY slows down performance. If you want optimal performace from this you are going to have to keep all movie directories in [Letter:\]movies\ and limit the search depth to 2. 
+	
+Here is what lays in future development:
+
+	1: ability to add a description and genre to a movie  (for organization)
+	2: Obviously there will be a GUI, but it isn't ready yet. 
+	3: From the GUI I would like to be able to launch the movie with a program that you specify. Not sure how feasible this is, but I'd imagine it can be done! Feel free to let me know if you have any additional requirements. 
+
+	Cody
