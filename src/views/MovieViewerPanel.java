@@ -27,18 +27,20 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
     public MovieViewerPanel(Model model) {
 	this.model = model;
 	initComponents();
-	tModel = new DefaultTableModel();
+	tModel = new DefaultTableModel(){
+	    @Override
+	    public boolean isCellEditable(int rowIndex, int colIndex){
+		return false; 
+	    }	
+	};
 	tModel.addColumn("Title");
 	tModel.addColumn("Format");
-
-	updateView();
 
     }
 
     public MovieViewerPanel() {
 	initComponents();
 	tModel = new DefaultTableModel();
-	updateView();
     }
 
     /** This method is called from within the constructor to
@@ -112,6 +114,8 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 
 	movieTable.setModel(tModel);
 
+	movieTable.getColumnModel().getColumn(0).setPreferredWidth(400);
+	movieTable.getColumnModel().getColumn(1).setPreferredWidth(60);
 
 	System.out.println("called update views");
 

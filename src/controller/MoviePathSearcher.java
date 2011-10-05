@@ -37,6 +37,16 @@ public class MoviePathSearcher implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+	
+	//Check to make sure that directory is not excluded 
+	if(attrs.isDirectory()){
+	    for(Path pth : m.getPathsToExclude()){
+		if(pth.equals(dir)){
+		    return FileVisitResult.SKIP_SUBTREE;
+		}
+	    }
+	}
+	
 	Path p = dir.getFileName();
 	//Verify directory is good. 
 	if ((attrs.isDirectory()) && (p != null)) {

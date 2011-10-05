@@ -25,7 +25,6 @@ public class Controller implements ActionListener {
     Model model;
     CopyOnWriteArrayList<IUpdateView> viewList;
     String[] dirs = {"movies", "videos"};
-    private int depth = 2;
 
     public Controller(Model m) {
 	this.model = m;
@@ -49,7 +48,7 @@ public class Controller implements ActionListener {
 	for (File r : roots) {
 	    Path p = Paths.get(r.getAbsolutePath());
 	    EnumSet<FileVisitOption> opts = EnumSet.of(FileVisitOption.FOLLOW_LINKS);
-	    Files.walkFileTree(p, opts, depth, mps);
+	    Files.walkFileTree(p, opts, model.getSearchDepth(), mps);
 	}
 
 	MovieSearcher ms = new MovieSearcher(model);

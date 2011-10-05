@@ -32,18 +32,20 @@ public class GetMovies {
 	m.getSearchKeywords().add("movies");
 
 	Controller cont = new Controller(m);
+	final testFrame t = new testFrame(cont, m);
 	try {
 	    cont.populateMovies();
 	} catch (IOException ex) {
 	    Logger.getLogger(GetMovies.class.getName()).log(Level.SEVERE, null, ex);
 	}
 
-	final testFrame t = new testFrame(cont, m);
+	
 
 	java.awt.EventQueue.invokeLater(new Runnable() {
 
 	    public void run() {
 
+		t.setLocationRelativeTo(null);
 		t.setVisible(true);
 
 	    }
