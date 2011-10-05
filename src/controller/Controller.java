@@ -1,67 +1,90 @@
 package controller;
 
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileVisitOption;
+import java.nio.file.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.EnumSet;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.Model;
 import model.Movie;
-import model.Movies;
+import views.IUpdateView;
 
 /**
  *
  * @author Cody W. Eilar <Cody.Eilar@Gmail.com>
  */
-public class Controller {
+public class Controller implements ActionListener {
 
-    Movies movies;
+    Model model;
+    CopyOnWriteArrayList<IUpdateView> viewList;
     String[] dirs = {"movies", "videos"};
     private int depth = 2;
 
-    public Controller(Movies m) {
-        this.movies = m;
+    public Controller(Model m) {
+	this.model = m;
+	viewList = new CopyOnWriteArrayList();
 
+    }
+
+    public void addViews(IUpdateView iv) {
+	viewList.add(iv);
+    }
+
+    public void removeViews(IUpdateView iv) {
+	viewList.remove(iv);
     }
 
     public void populateMovies() throws IOException {
-        //Get search paths for movies 
-        MoviePathSearcher mps = new MoviePathSearcher(dirs);
-        File[] roots = File.listRoots();
-        for (File r : roots) {
-            Path p = Paths.get(r.getAbsolutePath());
-            EnumSet<FileVisitOption> opts = EnumSet.of(FileVisitOption.FOLLOW_LINKS);
-            Files.walkFileTree(p, opts, depth, mps);
-        }
+	//Get search paths for movies 
+	model.getMovies().removeAllMovies();
+	MoviePathSearcher mps = new MoviePathSearcher(model);
+	File[] roots = File.listRoots();
+	for (File r : roots) {
+	    Path p = Paths.get(r.getAbsolutePath());
+	    EnumSet<FileVisitOption> opts = EnumSet.of(FileVisitOption.FOLLOW_LINKS);
+	    Files.walkFileTree(p, opts, depth, mps);
+	}
 
-        MovieSearcher ms = new MovieSearcher(movies);
-        //Get all the paths that supposedly have movies
-        Path[] paths = mps.getPathsToMovies();
+	MovieSearcher ms = new MovieSearcher(model);
+	//Get all the paths that supposedly have movies
+	Path[] paths = mps.getPathsToMovies();
 
-        //search for all the movies within those directories... no limit to depth
-        for (Path path : paths) {
-            if (path != null) {
-                Files.walkFileTree(path, ms);
-            }
-        }
+	//search for all the movies within those directories... no limit to depth
+	for (Path path : paths) {
+	    if (path != null) {
+		Files.walkFileTree(path, ms);
+	    }
+	}
 
+	//upate all teh vewis with the new model data. 
+	updateViews();
+
+	for (Movie mov : model.getMovies().getMovieList()) {
+	    System.out.println("movies in list:" + mov.getTitle());
+	}
     }
 
-    public static void main(String... args) {
-        Movies m = new Movies();
-        Controller c = new Controller(m);
-        try {
-            c.populateMovies();
-        } catch (IOException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void updateViews() {
+	for (IUpdateView iv : viewList) {
+	    if (iv != null) {
+		iv.updateView();
+	    }
+	}
+    }
 
-        for (Movie mov : m.getMovies()) {
-            System.out.println("Movie: " + mov.getTitle());
-        }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+	String cmd = e.getActionCommand();
+
+	if (cmd.equals("Add Keyword")) {
+	}
+
     }
 }

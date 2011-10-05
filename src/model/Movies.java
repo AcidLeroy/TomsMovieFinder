@@ -15,7 +15,7 @@ public class Movies {
      */
     String[] movieDirs;
 
-    public CopyOnWriteArrayList<Movie> getMovies() {
+    public CopyOnWriteArrayList<Movie> getMovieList() {
         return this.movies;
     }
 
@@ -37,5 +37,9 @@ public class Movies {
 
     public void removeMovie(Movie moviePath) {
         movies.remove(moviePath);
+    }
+    
+    public void removeAllMovies() {
+	movies.clear();
     }
 }
