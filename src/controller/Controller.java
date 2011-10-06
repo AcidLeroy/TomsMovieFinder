@@ -10,8 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.EnumSet;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Model;
 import model.Movie;
 import views.IUpdateView;
@@ -24,7 +22,6 @@ public class Controller implements ActionListener {
 
     Model model;
     CopyOnWriteArrayList<IUpdateView> viewList;
-    String[] dirs = {"movies", "videos"};
 
     public Controller(Model m) {
 	this.model = m;
@@ -62,7 +59,7 @@ public class Controller implements ActionListener {
 	    }
 	}
 
-	//upate all teh vewis with the new model data. 
+	//upate all the views with the new model data. 
 	updateViews();
 
 	for (Movie mov : model.getMovies().getMovieList()) {
