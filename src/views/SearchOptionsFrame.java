@@ -14,6 +14,7 @@ import controller.Controller;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import model.Model;
 
 /**
@@ -45,12 +46,19 @@ public class SearchOptionsFrame extends javax.swing.JFrame implements IUpdateVie
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        vlcChooser = new javax.swing.JFileChooser();
         directoryKeywordPanel1 = new views.DirectoryKeywordPanel(model);
         formatPanel1 = new views.FormatPanel(model);
         excludedPathsPanel1 = new views.ExcludedPathsPanel(model, controller);
         jButton1 = new javax.swing.JButton();
         searchDepthField = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        vlcPathField = new javax.swing.JTextField();
+        vlcDialogBtn = new javax.swing.JButton();
+
+        vlcChooser.setCurrentDirectory(new java.io.File("C:\\Program Files"));
+        vlcChooser.setDialogTitle("Choose VLC ");
 
         setTitle("Search Options");
 
@@ -71,25 +79,44 @@ public class SearchOptionsFrame extends javax.swing.JFrame implements IUpdateVie
 
         jLabel1.setText("Directory Search Depth:");
 
+        jLabel2.setText("VLC Player Location:");
+
+        vlcPathField.setEditable(false);
+        vlcPathField.setText("vlc.exe");
+
+        vlcDialogBtn.setText("Set VLC Location");
+        vlcDialogBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                vlcDialogBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(excludedPathsPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(formatPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(directoryKeywordPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(formatPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(1, 1, 1)
                         .addComponent(searchDepthField, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addGap(12, 12, 12)
+                        .addComponent(vlcPathField, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(vlcDialogBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addComponent(directoryKeywordPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -104,7 +131,10 @@ public class SearchOptionsFrame extends javax.swing.JFrame implements IUpdateVie
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(searchDepthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(vlcPathField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vlcDialogBtn)
+                    .addComponent(jLabel2))
                 .addContainerGap())
         );
 
@@ -124,6 +154,13 @@ public class SearchOptionsFrame extends javax.swing.JFrame implements IUpdateVie
 	updateView();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void vlcDialogBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vlcDialogBtnActionPerformed
+	if (vlcChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+	    model.setVlcLocation(vlcChooser.getSelectedFile().toPath());
+	    updateView();
+	}
+    }//GEN-LAST:event_vlcDialogBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -141,7 +178,11 @@ public class SearchOptionsFrame extends javax.swing.JFrame implements IUpdateVie
     private views.FormatPanel formatPanel1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JFormattedTextField searchDepthField;
+    private javax.swing.JFileChooser vlcChooser;
+    private javax.swing.JButton vlcDialogBtn;
+    private javax.swing.JTextField vlcPathField;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -150,6 +191,6 @@ public class SearchOptionsFrame extends javax.swing.JFrame implements IUpdateVie
 	directoryKeywordPanel1.updateView();
 	excludedPathsPanel1.updateView();
 	formatPanel1.updateView();
-
+	vlcPathField.setText(model.getVlcLocation().toString());
     }
 }

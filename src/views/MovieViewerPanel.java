@@ -10,6 +10,8 @@
  */
 package views;
 
+import controller.Controller;
+import java.util.HashMap;
 import javax.swing.table.*;
 import model.Model;
 import model.Movie;
@@ -20,27 +22,33 @@ import model.Movie;
  */
 public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView {
 
-    DefaultTableModel tModel;
+    private DefaultTableModel tModel;
     private Model model;
+    private Controller controller;
+    private HashMap<String, Movie> movieHash;
 
     /** Creates new form MovieViewerPanel */
-    public MovieViewerPanel(Model model) {
+    public MovieViewerPanel(Model model, Controller controller) {
 	this.model = model;
+	this.controller = controller;
+
 	initComponents();
-	tModel = new DefaultTableModel(){
+	movieHash = new HashMap<String, Movie>();
+	tModel = new DefaultTableModel() {
+
 	    @Override
-	    public boolean isCellEditable(int rowIndex, int colIndex){
-		return false; 
-	    }	
+	    public boolean isCellEditable(int rowIndex, int colIndex) {
+		return false;
+	    }
 	};
 	tModel.addColumn("Title");
 	tModel.addColumn("Format");
 
+
     }
 
     public MovieViewerPanel() {
-	initComponents();
-	tModel = new DefaultTableModel();
+	this(null, null);
     }
 
     /** This method is called from within the constructor to
@@ -74,6 +82,7 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
                 return canEdit [columnIndex];
             }
         });
+        movieTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(movieTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -95,9 +104,7 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
     @Override
     public void updateView() {
 
-//	for(int i =0 ; i<tModel.getRowCount(); i++){
-//	    tModel.removeRow(i);
-//	}
+	movieHash.clear();
 
 	if (tModel.getDataVector() != null) {
 	    tModel.getDataVector().removeAllElements();
@@ -108,6 +115,7 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	for (Movie m : model.getMovies().getMovieList()) {
 	    col[0] = m.getTitle();
 	    col[1] = m.getFormat();
+	    movieHash.put(m.getTitle(), m);
 	    tModel.addRow(col);
 	}
 
@@ -117,9 +125,14 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	movieTable.getColumnModel().getColumn(0).setPreferredWidth(400);
 	movieTable.getColumnModel().getColumn(1).setPreferredWidth(60);
 
+
 	System.out.println("called update views");
 
+    }
 
-
+    public Movie getSelectedMovie() {
+	int sRow = movieTable.getSelectedRow();
+	Movie m = movieHash.get(movieTable.getValueAt(sRow, 0));
+	return m;
     }
 }

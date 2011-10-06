@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Model;
+import model.Movie;
 
 /**
  *
@@ -47,9 +48,10 @@ public class mainPanel extends javax.swing.JPanel implements IUpdateView {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        movieViewerPanel1 = new views.MovieViewerPanel(model);
+        movieViewerPanel1 = new views.MovieViewerPanel(model, controller);
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        launchMovie = new javax.swing.JButton();
 
         movieViewerPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "Movie List", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0))); // NOI18N
 
@@ -67,6 +69,13 @@ public class mainPanel extends javax.swing.JPanel implements IUpdateView {
             }
         });
 
+        launchMovie.setText("Launch Selected Movie");
+        launchMovie.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                launchMovieActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -75,7 +84,9 @@ public class mainPanel extends javax.swing.JPanel implements IUpdateView {
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
-                .addContainerGap(184, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(launchMovie)
+                .addContainerGap(37, Short.MAX_VALUE))
             .addComponent(movieViewerPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -85,7 +96,8 @@ public class mainPanel extends javax.swing.JPanel implements IUpdateView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)))
+                    .addComponent(jButton2)
+                    .addComponent(launchMovie)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -102,9 +114,19 @@ public class mainPanel extends javax.swing.JPanel implements IUpdateView {
 	sOptionsFrame.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void launchMovieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchMovieActionPerformed
+	Movie sMovie = movieViewerPanel1.getSelectedMovie();
+	try {
+	    Runtime.getRuntime().exec("C:\\Program Files\\VideoLAN\\VLC\\vlc.exe --fullscreen "+sMovie.getMoviePath());
+	} catch (IOException ex) {
+	    Logger.getLogger(mainPanel.class.getName()).log(Level.SEVERE, null, ex);
+	}
+    }//GEN-LAST:event_launchMovieActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton launchMovie;
     private views.MovieViewerPanel movieViewerPanel1;
     // End of variables declaration//GEN-END:variables
 
