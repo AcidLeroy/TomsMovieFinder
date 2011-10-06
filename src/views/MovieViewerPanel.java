@@ -116,6 +116,12 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 
 	Object col[] = new Object[2];
 
+	if(model.getMovies().getMovieList().isEmpty()){
+	    col[0] = "";
+	    col[1] = "";
+	    tModel.addRow(col);
+	}
+	
 	for (Movie m : model.getMovies().getMovieList()) {
 	    col[0] = m.getTitle();
 	    col[1] = m.getFormat();
