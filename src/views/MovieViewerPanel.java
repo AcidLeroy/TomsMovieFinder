@@ -12,6 +12,7 @@ package views;
 
 import controller.Controller;
 import java.util.HashMap;
+import javax.swing.RowSorter;
 import javax.swing.table.*;
 import model.Model;
 import model.Movie;
@@ -26,6 +27,7 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
     private Model model;
     private Controller controller;
     private HashMap<String, Movie> movieHash;
+    private RowSorter<DefaultTableModel> tableSort; 
 
     /** Creates new form MovieViewerPanel */
     public MovieViewerPanel(Model model, Controller controller) {
@@ -43,7 +45,8 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	};
 	tModel.addColumn("Title");
 	tModel.addColumn("Format");
-
+	tableSort = new TableRowSorter<DefaultTableModel>(tModel); 
+	movieTable.setRowSorter(tableSort);
 
     }
 
@@ -63,6 +66,7 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
         jScrollPane1 = new javax.swing.JScrollPane();
         movieTable = new javax.swing.JTable();
 
+        movieTable.setAutoCreateRowSorter(true);
         movieTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
