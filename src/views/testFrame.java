@@ -66,7 +66,7 @@ public class testFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(mainPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 434, Short.MAX_VALUE))
+                        .addComponent(mainPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE))
                     .addComponent(jLabel1))
                 .addContainerGap())
         );
