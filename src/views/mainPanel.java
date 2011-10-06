@@ -117,7 +117,8 @@ public class mainPanel extends javax.swing.JPanel implements IUpdateView {
     private void launchMovieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchMovieActionPerformed
 	Movie sMovie = movieViewerPanel1.getSelectedMovie();
 	try {
-	    Runtime.getRuntime().exec("C:\\Program Files\\VideoLAN\\VLC\\vlc.exe --fullscreen "+sMovie.getMoviePath());
+	    System.out.println(model.getVlcLocation()+" --fullscreen"+sMovie.getMoviePath());
+	    Runtime.getRuntime().exec(model.getVlcLocation()+" --fullscreen "+sMovie.getMoviePath());
 	} catch (IOException ex) {
 	    Logger.getLogger(mainPanel.class.getName()).log(Level.SEVERE, null, ex);
 	}
