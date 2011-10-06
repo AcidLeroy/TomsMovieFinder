@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
@@ -40,7 +41,7 @@ public class MoviePathSearcher implements FileVisitor<Path> {
 	
 	//Check to make sure that directory is not excluded 
 	if(attrs.isDirectory()){
-	    for(Path pth : m.getPathsToExclude()){
+	    for(File pth : m.getFilesToExclude()){
 		if(pth.equals(dir)){
 		    return FileVisitResult.SKIP_SUBTREE;
 		}

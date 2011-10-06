@@ -2,7 +2,6 @@ package model;
 
 import java.io.File;
 import java.io.Serializable;
-import java.nio.file.Path;
 
 /**
  *
@@ -11,14 +10,14 @@ import java.nio.file.Path;
  */
 public class Movie implements Serializable {
 
-    private Path moviePath;
+    private File movieFile;
     private String title;
     private String description;
     private String format;
     private long size;
 
-    public Movie(Path pathToMovie, String title, String format) {
-        moviePath = pathToMovie;
+    public Movie(File FileToMovie, String title, String format) {
+        movieFile = FileToMovie;
         this.title = title; 
         this.format = format;
         size = 0;
@@ -32,8 +31,8 @@ public class Movie implements Serializable {
         return format;
     }
 
-    public Path getMoviePath() {
-        return moviePath;
+    public File getMovieFile() {
+        return movieFile;
     }
 
     public long getSize() {

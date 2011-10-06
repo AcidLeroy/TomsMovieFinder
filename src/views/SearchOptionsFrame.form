@@ -101,7 +101,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new views.DirectoryKeywordPanel(model)"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new views.DirectoryKeywordPanel(controller)"/>
       </AuxValues>
     </Component>
     <Component class="views.FormatPanel" name="formatPanel1">
@@ -118,7 +118,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new views.FormatPanel(model)"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new views.FormatPanel(controller)"/>
       </AuxValues>
     </Component>
     <Component class="views.ExcludedPathsPanel" name="excludedPathsPanel1">
@@ -135,7 +135,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new views.ExcludedPathsPanel(model, controller)"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new views.ExcludedPathsPanel(controller)"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">

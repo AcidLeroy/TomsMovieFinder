@@ -4,29 +4,30 @@
  */
 package model;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.Serializable;
+
 import java.util.ArrayList;
 
 /**
  *
  * @author gq114c
  */
-public class Model {
+public class Model implements Serializable{
 
     private Movies movies;
     private int searchDepth;
     private ArrayList<String> searchKeywords;
     private ArrayList<String> searchFormats;
-    private ArrayList<Path> pathsToExclude; 
-    private Path vlcLocation; 
+    private ArrayList<File> FilesToExclude; 
+    private File vlcLocation; 
 
     //create all objects in the model 
     public Model() {
 	searchKeywords = new ArrayList<String>();
 	searchFormats = new ArrayList<String>();
-	pathsToExclude = new ArrayList<Path>(); 
-	vlcLocation = Paths.get("C:\\Program Files\\VideoLAN\\VLC\\vlc.exe");
+	FilesToExclude = new ArrayList<File>(); 
+	vlcLocation = new File("C:\\Program Files\\VideoLAN\\VLC\\vlc.exe");
 	//default the search depth to 2;
 	searchDepth = 2; 
 	movies = new Movies();
@@ -52,15 +53,15 @@ public class Model {
 	this.searchDepth = searchDepth;
     }
 
-    public ArrayList<Path> getPathsToExclude() {
-	return pathsToExclude;
+    public ArrayList<File> getFilesToExclude() {
+	return FilesToExclude;
     }
 
-    public Path getVlcLocation() {
+    public File getVlcLocation() {
 	return vlcLocation;
     }
 
-    public void setVlcLocation(Path vlcLocation) {
+    public void setVlcLocation(File vlcLocation) {
 	this.vlcLocation = vlcLocation;
     }
     

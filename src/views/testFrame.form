@@ -75,7 +75,7 @@
     </Component>
     <Component class="views.mainPanel" name="mainPanel1">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new views.mainPanel(model, controller)"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new views.mainPanel(controller)"/>
       </AuxValues>
     </Component>
   </SubComponents>

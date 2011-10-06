@@ -11,7 +11,8 @@
 package views;
 
 import controller.Controller;
-import java.nio.file.Path;
+import java.io.File;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import model.Model;
@@ -22,18 +23,16 @@ import model.Model;
  */
 public class ExcludedPathsPanel extends javax.swing.JPanel implements IUpdateView {
 
-    Model model;
     Controller controller;
     private DefaultListModel listModel;
 
     /** Creates new form MiscOptionsPanel */
     public ExcludedPathsPanel() {
-	this(null, null);
+	this(null);
 
     }
 
-    public ExcludedPathsPanel(Model m, Controller c) {
-	this.model = m;
+    public ExcludedPathsPanel(Controller c) {
 	this.controller = c;
 	listModel = new DefaultListModel();
 	initComponents();
@@ -118,16 +117,15 @@ public class ExcludedPathsPanel extends javax.swing.JPanel implements IUpdateVie
 
     private void addExcludedPathBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExcludedPathBtnActionPerformed
 	if (pathsToExcludeChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-	    model.getPathsToExclude().add(pathsToExcludeChooser.getSelectedFile().toPath());
+	    controller.getModel().getFilesToExclude().add(pathsToExcludeChooser.getSelectedFile());
 	    updateView();
 	}
     }//GEN-LAST:event_addExcludedPathBtnActionPerformed
 
     private void removeExcludedPathBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeExcludedPathBtnActionPerformed
-	 model.getPathsToExclude().remove(excludedPathsList.getSelectedValue());
-	 updateView(); 
+	controller.getModel().getFilesToExclude().remove(excludedPathsList.getSelectedValue());
+	updateView();
     }//GEN-LAST:event_removeExcludedPathBtnActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addExcludedPathBtn;
     private javax.swing.JList excludedPathsList;
@@ -140,7 +138,7 @@ public class ExcludedPathsPanel extends javax.swing.JPanel implements IUpdateVie
     @Override
     public void updateView() {
 	listModel.removeAllElements();
-	for (Path p : model.getPathsToExclude()) {
+	for (File p : controller.getModel().getFilesToExclude()) {
 	    listModel.addElement(p);
 	}
 	excludedPathsList.setModel(listModel);

@@ -10,6 +10,7 @@
  */
 package views;
 
+import controller.Controller;
 import javax.swing.DefaultListModel;
 import model.Model;
 
@@ -19,19 +20,19 @@ import model.Model;
  */
 public class FormatPanel extends javax.swing.JPanel implements IUpdateView {
 
-    Model model;
+    private Controller controller;
     private DefaultListModel listModel;
 
     /** Creates new form FormatPanel */
     public FormatPanel() {
-	this.model = null;
-	initComponents();
+
+	this(null);
 
     }
 
-    public FormatPanel(Model m) {
+    public FormatPanel(Controller c) {
+	this.controller = c;
 	listModel = new DefaultListModel();
-	this.model = m;
 	initComponents();
 
     }
@@ -122,12 +123,12 @@ public class FormatPanel extends javax.swing.JPanel implements IUpdateView {
     }// </editor-fold>//GEN-END:initComponents
 
     private void removeSelectedFormatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeSelectedFormatActionPerformed
-	model.getSearchFormats().remove((String) formatList.getSelectedValue());
+	controller.getModel().getSearchFormats().remove((String) formatList.getSelectedValue());
 	updateView();
     }//GEN-LAST:event_removeSelectedFormatActionPerformed
 
     private void addFormatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFormatActionPerformed
-	model.getSearchFormats().add(formatToAdd.getText());
+	controller.getModel().getSearchFormats().add(formatToAdd.getText());
 	updateView();
 
     }//GEN-LAST:event_addFormatActionPerformed
@@ -135,7 +136,6 @@ public class FormatPanel extends javax.swing.JPanel implements IUpdateView {
     private void formatToAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatToAddActionPerformed
 	// TODO add your handling code here:
     }//GEN-LAST:event_formatToAddActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addFormat;
     private javax.swing.JList formatList;
@@ -149,7 +149,7 @@ public class FormatPanel extends javax.swing.JPanel implements IUpdateView {
     @Override
     public void updateView() {
 	listModel.removeAllElements();
-	for (String s : model.getSearchFormats()) {
+	for (String s : controller.getModel().getSearchFormats()) {
 	    listModel.addElement(s);
 	}
 	formatList.setModel(listModel);

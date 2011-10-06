@@ -10,8 +10,8 @@
  */
 package views;
 
+import controller.Controller;
 import javax.swing.DefaultListModel;
-import model.Model;
 
 /**
  *
@@ -19,7 +19,7 @@ import model.Model;
  */
 public class DirectoryKeywordPanel extends javax.swing.JPanel implements IUpdateView {
 
-    private Model model;
+    private Controller controller;
     private DefaultListModel listModel;
 
     /** Creates new form ControlPanel */
@@ -28,8 +28,8 @@ public class DirectoryKeywordPanel extends javax.swing.JPanel implements IUpdate
 	//updateView(); 
     }
 
-    public DirectoryKeywordPanel(Model model) {
-	this.model = model;
+    public DirectoryKeywordPanel(Controller controller) {
+	this.controller = controller;
 	initComponents();
 	listModel = new DefaultListModel();
 	//updateView(); 
@@ -124,13 +124,13 @@ public class DirectoryKeywordPanel extends javax.swing.JPanel implements IUpdate
     }// </editor-fold>//GEN-END:initComponents
 
     private void addKeyWordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addKeyWordActionPerformed
-	model.getSearchKeywords().add(keyWordToAdd.getText());
+	controller.getModel().getSearchKeywords().add(keyWordToAdd.getText());
 	updateView();
     }//GEN-LAST:event_addKeyWordActionPerformed
 
     private void removeKeywordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeKeywordActionPerformed
 	String selectedVal = (String) DirectoryList.getSelectedValue();
-	model.getSearchKeywords().remove(selectedVal);
+	controller.getModel().getSearchKeywords().remove(selectedVal);
 	updateView();
 
     }//GEN-LAST:event_removeKeywordActionPerformed
@@ -147,7 +147,7 @@ public class DirectoryKeywordPanel extends javax.swing.JPanel implements IUpdate
     @Override
     public void updateView() {
 	listModel.removeAllElements();
-	for (String s : model.getSearchKeywords()) {
+	for (String s : controller.getModel().getSearchKeywords()) {
 	    listModel.addElement(s);
 	}
 	DirectoryList.setModel(listModel);

@@ -23,7 +23,6 @@ import model.Movie;
  */
 public class mainPanel extends javax.swing.JPanel implements IUpdateView {
 
-    private Model model;
     private Controller controller; 
     private SearchOptionsFrame sOptionsFrame; 
 
@@ -32,11 +31,10 @@ public class mainPanel extends javax.swing.JPanel implements IUpdateView {
 	initComponents();
     }
 
-    public mainPanel(Model m, Controller c) {
-	this.model = m;
+    public mainPanel(Controller c) {
 	this.controller =c; 
 	initComponents();
-	sOptionsFrame = new SearchOptionsFrame(m,c); 
+	sOptionsFrame = new SearchOptionsFrame(c); 
     }
 
     /** This method is called from within the constructor to
@@ -48,7 +46,7 @@ public class mainPanel extends javax.swing.JPanel implements IUpdateView {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        movieViewerPanel1 = new views.MovieViewerPanel(model, controller);
+        movieViewerPanel1 = new views.MovieViewerPanel(controller);
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         launchMovie = new javax.swing.JButton();
@@ -119,8 +117,8 @@ public class mainPanel extends javax.swing.JPanel implements IUpdateView {
     private void launchMovieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchMovieActionPerformed
 	Movie sMovie = movieViewerPanel1.getSelectedMovie();
 	try {
-	    System.out.println(model.getVlcLocation()+" --fullscreen"+sMovie.getMoviePath());
-	    Runtime.getRuntime().exec(model.getVlcLocation()+" --fullscreen "+"\""+sMovie.getMoviePath()+"\"");
+	    System.out.println(controller.getModel().getVlcLocation()+" --fullscreen"+sMovie.getMovieFile());
+	    Runtime.getRuntime().exec(controller.getModel().getVlcLocation()+" --fullscreen "+"\""+sMovie.getMovieFile()+"\"");
 	} catch (IOException ex) {
 	    Logger.getLogger(mainPanel.class.getName()).log(Level.SEVERE, null, ex);
 	}

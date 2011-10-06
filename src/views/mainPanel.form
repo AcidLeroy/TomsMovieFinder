@@ -58,7 +58,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new views.MovieViewerPanel(model, controller)"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new views.MovieViewerPanel(controller)"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="jButton1">

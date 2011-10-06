@@ -48,7 +48,8 @@ public class MovieSearcher implements FileVisitor<Path> {
 	    while (m.find()) {
 		System.out.println("Matched: " + m.group());
 		System.out.println("movie matched: " + m.group(1));
-		this.movies.addMovie(file, m.group(1), m.group(2));
+		this.movies.addMovie(file.toFile(), m.group(1), m.group(2));
+		System.out.println("Empty:"+this.movies.getMovieList().isEmpty());
 	    }
 	}
 

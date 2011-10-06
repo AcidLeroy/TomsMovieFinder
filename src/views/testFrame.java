@@ -21,19 +21,18 @@ import model.Model;
 public class testFrame extends javax.swing.JFrame {
 
     private Controller controller;
-    private Model model;
 
     /** Creates new form mainFrame */
     public testFrame() {
 	initComponents();
     }
 
-    public testFrame(Controller c, Model m) {
+    public testFrame(Controller c) {
 	this.controller = c;
-	this.model = m;
-	
+		
 	initComponents();
 	c.addViews(mainPanel1);
+	this.addWindowListener(c);
     }
 
     /** This method is called from within the constructor to
@@ -47,7 +46,7 @@ public class testFrame extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        mainPanel1 = new views.mainPanel(model, controller);
+        mainPanel1 = new views.mainPanel(controller);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tom's Movie-File Finder");
@@ -67,7 +66,7 @@ public class testFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(mainPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE))
+                        .addComponent(mainPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 434, Short.MAX_VALUE))
                     .addComponent(jLabel1))
                 .addContainerGap())
         );

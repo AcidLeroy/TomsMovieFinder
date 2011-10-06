@@ -1,13 +1,15 @@
 package model;
 
-import java.nio.file.Path;
+import java.io.File;
+import java.io.Serializable;
+
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  *
  * @author Cody W. Eilar <Cody.Eilar@Gmail.com>
  */
-public class Movies {
+public class Movies implements Serializable{
 
     CopyOnWriteArrayList<Movie> movies;
     /**
@@ -31,12 +33,12 @@ public class Movies {
         this.movieDirs = movieDirs;
     }
 
-    public void addMovie(Path moviePath, String title, String format) {
-        movies.add(new Movie(moviePath, title, format));
+    public void addMovie(File movieFile, String title, String format) {
+        movies.add(new Movie(movieFile, title, format));
     }
 
-    public void removeMovie(Movie moviePath) {
-        movies.remove(moviePath);
+    public void removeMovie(Movie movieFile) {
+        movies.remove(movieFile);
     }
     
     public void removeAllMovies() {

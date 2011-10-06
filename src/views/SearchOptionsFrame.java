@@ -15,7 +15,7 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import model.Model;
+
 
 /**
  *
@@ -23,16 +23,14 @@ import model.Model;
  */
 public class SearchOptionsFrame extends javax.swing.JFrame implements IUpdateView {
 
-    private Model model;
     private Controller controller;
 
     /** Creates new form SearchOptionsFrame */
     public SearchOptionsFrame() {
-	this(null, null);
+	this(null);
     }
 
-    public SearchOptionsFrame(Model m, Controller c) {
-	this.model = m;
+    public SearchOptionsFrame(Controller c) {
 	this.controller = c;
 	initComponents();
     }
@@ -47,9 +45,9 @@ public class SearchOptionsFrame extends javax.swing.JFrame implements IUpdateVie
     private void initComponents() {
 
         vlcChooser = new javax.swing.JFileChooser();
-        directoryKeywordPanel1 = new views.DirectoryKeywordPanel(model);
-        formatPanel1 = new views.FormatPanel(model);
-        excludedPathsPanel1 = new views.ExcludedPathsPanel(model, controller);
+        directoryKeywordPanel1 = new views.DirectoryKeywordPanel(controller);
+        formatPanel1 = new views.FormatPanel(controller);
+        excludedPathsPanel1 = new views.ExcludedPathsPanel(controller);
         jButton1 = new javax.swing.JButton();
         searchDepthField = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -148,7 +146,7 @@ public class SearchOptionsFrame extends javax.swing.JFrame implements IUpdateVie
 	    Logger.getLogger(SearchOptionsFrame.class.getName()).log(Level.SEVERE, null, ex);
 	}
 	Number num = (Number) searchDepthField.getValue();
-	model.setSearchDepth(num.intValue());
+	controller.getModel().setSearchDepth(num.intValue());
 	
 	this.setVisible(false);
 	updateView();
@@ -156,7 +154,7 @@ public class SearchOptionsFrame extends javax.swing.JFrame implements IUpdateVie
 
     private void vlcDialogBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vlcDialogBtnActionPerformed
 	if (vlcChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-	    model.setVlcLocation(vlcChooser.getSelectedFile().toPath());
+	    controller.getModel().setVlcLocation(vlcChooser.getSelectedFile());
 	    updateView();
 	}
     }//GEN-LAST:event_vlcDialogBtnActionPerformed
@@ -187,10 +185,10 @@ public class SearchOptionsFrame extends javax.swing.JFrame implements IUpdateVie
 
     @Override
     public void updateView() {
-	searchDepthField.setValue(new Integer(model.getSearchDepth()));
+	searchDepthField.setValue(new Integer(controller.getModel().getSearchDepth()));
 	directoryKeywordPanel1.updateView();
 	excludedPathsPanel1.updateView();
 	formatPanel1.updateView();
-	vlcPathField.setText(model.getVlcLocation().toString());
+	vlcPathField.setText(controller.getModel().getVlcLocation().toString());
     }
 }

@@ -5,7 +5,6 @@
 package getmovies;
 
 import controller.Controller;
-import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,10 +30,10 @@ public class GetMovies {
 	m.getSearchKeywords().add("Videos");
 	m.getSearchKeywords().add("movies");
 
-	Controller cont = new Controller(m);
-	final testFrame t = new testFrame(cont, m);
+	Controller controller = new Controller(m);
+	final testFrame t = new testFrame(controller);
 	try {
-	    cont.populateMovies();
+	    controller.initialize();
 	} catch (IOException ex) {
 	    Logger.getLogger(GetMovies.class.getName()).log(Level.SEVERE, null, ex);
 	}
