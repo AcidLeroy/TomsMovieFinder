@@ -48,7 +48,7 @@ public class testFrame extends javax.swing.JFrame {
         mainPanel1 = new views.mainPanel(controller);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Tom's Movie-File Finder");
+        setTitle("Tom's Movie-Film Finder");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36));
         jLabel1.setText("Tom's Movie-Film Finder");

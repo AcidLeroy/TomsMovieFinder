@@ -44,6 +44,7 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	};
 	tModel.addColumn("Title");
 	tModel.addColumn("Format");
+	tModel.addColumn("Size (MB)");
 	tableSort = new TableRowSorter<DefaultTableModel>(tModel);
 	movieTable.setRowSorter(tableSort);
 
@@ -115,12 +116,13 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	    tModel.getDataVector().removeAllElements();
 	}
 
-	Object col[] = new Object[2];
+	Object col[] = new Object[3];
 
 	if (model.getMovies().getMovieList().isEmpty()) {
 	    System.out.println("movie list is empty");
 	    col[0] = "";
 	    col[1] = "";
+	    col[3] = ""; 
 	    tModel.addRow(col);
 	}
 
@@ -129,6 +131,7 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	    if (m.getSize() > model.getMinMovieFileSize()) {
 		col[0] = m.getTitle();
 		col[1] = m.getFormat();
+		col[2] = m.getSize(); 
 		movieHash.put(m.getTitle(), m);
 		tModel.addRow(col);
 	    }
