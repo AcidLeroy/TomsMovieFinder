@@ -14,6 +14,7 @@ import controller.Controller;
 import java.util.HashMap;
 import javax.swing.RowSorter;
 import javax.swing.table.*;
+import model.Model;
 import model.Movie;
 
 /**
@@ -23,14 +24,13 @@ import model.Movie;
 public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView {
 
     private DefaultTableModel tModel;
-    
     private Controller controller;
     private HashMap<String, Movie> movieHash;
-    private RowSorter<DefaultTableModel> tableSort; 
+    private RowSorter<DefaultTableModel> tableSort;
 
     /** Creates new form MovieViewerPanel */
-    public MovieViewerPanel( Controller controller) {
-	
+    public MovieViewerPanel(Controller controller) {
+
 	this.controller = controller;
 
 	initComponents();
@@ -44,7 +44,7 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	};
 	tModel.addColumn("Title");
 	tModel.addColumn("Format");
-	tableSort = new TableRowSorter<DefaultTableModel>(tModel); 
+	tableSort = new TableRowSorter<DefaultTableModel>(tModel);
 	movieTable.setRowSorter(tableSort);
 
     }
@@ -107,6 +107,8 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
     @Override
     public void updateView() {
 
+	Model model = controller.getModel();
+
 	movieHash.clear();
 
 	if (tModel.getDataVector() != null) {
@@ -115,18 +117,21 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 
 	Object col[] = new Object[2];
 
-	if(controller.getModel().getMovies().getMovieList().isEmpty()){
+	if (model.getMovies().getMovieList().isEmpty()) {
 	    System.out.println("movie list is empty");
 	    col[0] = "";
 	    col[1] = "";
 	    tModel.addRow(col);
 	}
-	
-	for (Movie m : controller.getModel().getMovies().getMovieList()) {
-	    col[0] = m.getTitle();
-	    col[1] = m.getFormat();
-	    movieHash.put(m.getTitle(), m);
-	    tModel.addRow(col);
+
+	for (Movie m : model.getMovies().getMovieList()) {
+	    
+	    if (m.getSize() > model.getMinMovieFileSize()) {
+		col[0] = m.getTitle();
+		col[1] = m.getFormat();
+		movieHash.put(m.getTitle(), m);
+		tModel.addRow(col);
+	    }
 	}
 
 

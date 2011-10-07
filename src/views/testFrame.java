@@ -12,7 +12,6 @@ package views;
 
 import controller.Controller;
 
-import model.Model;
 
 /**
  *

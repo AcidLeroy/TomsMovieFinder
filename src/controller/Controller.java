@@ -1,9 +1,12 @@
 package controller;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,6 +22,7 @@ import java.util.EnumSet;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFormattedTextField;
 import model.Model;
 import model.Movie;
 import views.IUpdateView;
@@ -27,7 +31,7 @@ import views.IUpdateView;
  *
  * @author Cody W. Eilar <Cody.Eilar@Gmail.com>
  */
-public class Controller implements ActionListener, WindowListener {
+public class Controller implements ActionListener, WindowListener, PropertyChangeListener {
 
     private Model model;
     private CopyOnWriteArrayList<IUpdateView> viewList;
@@ -45,9 +49,9 @@ public class Controller implements ActionListener, WindowListener {
 
 
     }
-    
+
     public Model getModel() {
-	return this.model; 
+	return this.model;
     }
 
     public void addViews(IUpdateView iv) {
@@ -158,8 +162,8 @@ public class Controller implements ActionListener, WindowListener {
 	    fis = new FileInputStream(filename);
 	    in = new ObjectInputStream(fis);
 	    model = (Model) in.readObject();
-	    in.close(); 
-	    updateViews(); 
+	    in.close();
+	    updateViews();
 	} catch (FileNotFoundException ex) {
 	    this.populateMovies();
 	    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
@@ -170,6 +174,22 @@ public class Controller implements ActionListener, WindowListener {
 	} catch (ClassNotFoundException ex) {
 	    this.populateMovies();
 	    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+	}
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+	if (evt.getSource() instanceof JFormattedTextField) {
+	    JFormattedTextField jtf = (JFormattedTextField) evt.getSource();
+	    if ("File Size Change".equals(jtf.getName())) {
+		Number num = (Number) jtf.getValue();
+
+		if (num != null) {
+		    model.setMinMovieFileSize(num.longValue());
+		    updateViews();
+		}
+
+	    }
 	}
     }
 }

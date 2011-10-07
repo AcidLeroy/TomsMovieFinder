@@ -21,6 +21,7 @@ public class Model implements Serializable{
     private ArrayList<String> searchFormats;
     private ArrayList<File> FilesToExclude; 
     private File vlcLocation; 
+    private long minMovieFileSize; 
 
     //create all objects in the model 
     public Model() {
@@ -63,6 +64,14 @@ public class Model implements Serializable{
 
     public void setVlcLocation(File vlcLocation) {
 	this.vlcLocation = vlcLocation;
+    }
+
+    public long getMinMovieFileSize() {
+	return minMovieFileSize;
+    }
+
+    public void setMinMovieFileSize(long minMovieFileSize) {
+	this.minMovieFileSize = minMovieFileSize;
     }
     
     

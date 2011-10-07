@@ -20,7 +20,7 @@ public class Movie implements Serializable {
         movieFile = FileToMovie;
         this.title = title; 
         this.format = format;
-        size = 0;
+        size = FileToMovie.length()/1048576; //convert bytes to megabytes
     }
 
     public String getDescription() {
