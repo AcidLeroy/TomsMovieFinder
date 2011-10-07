@@ -11,6 +11,7 @@
 package views;
 
 import controller.Controller;
+import java.awt.Cursor;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -103,7 +104,9 @@ public class mainPanel extends javax.swing.JPanel implements IUpdateView {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 	try {
+	    this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 	    controller.populateMovies();
+	    this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	} catch (IOException ex) {
 	    Logger.getLogger(mainPanel.class.getName()).log(Level.SEVERE, null, ex);
 	}
