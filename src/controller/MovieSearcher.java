@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import model.Model;
+import model.Movie;
 import model.Movies;
 
 /**
@@ -46,10 +47,9 @@ public class MovieSearcher implements FileVisitor<Path> {
 	    Matcher m = pat.matcher(p.toString());
 
 	    while (m.find()) {
-		System.out.println("Matched: " + m.group());
-		System.out.println("movie matched: " + m.group(1));
+		System.out.println("Movie matched: " + m.group(1));
 		this.movies.addMovie(file.toFile(), m.group(1), m.group(2));
-		System.out.println("Empty:"+this.movies.getMovieList().isEmpty());
+
 	    }
 	}
 

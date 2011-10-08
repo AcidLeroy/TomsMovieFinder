@@ -38,16 +38,29 @@ public class MoviePathSearcher implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-	
+
 	//Check to make sure that directory is not excluded 
-	if(attrs.isDirectory()){
-	    for(File pth : m.getFilesToExclude()){
-		if(pth.equals(dir)){
+	if (attrs.isDirectory()) {
+	    for (File pth : m.getFilesToExclude()) {
+		
+		if (pth.toString().equals(dir.toFile().toString())) {
 		    return FileVisitResult.SKIP_SUBTREE;
 		}
 	    }
 	}
-	
+
+	//Check to make sure that directory is not included
+	if (attrs.isDirectory()) {
+	    if (m.getFilesToInclude() != null) {
+		for (File pth : m.getFilesToInclude()) {
+		    
+		    if (pth.toString().equals(dir.toFile().toString())) {
+			return FileVisitResult.SKIP_SUBTREE;
+		    }
+		}
+	    }
+	}
+
 	Path p = dir.getFileName();
 	//Verify directory is good. 
 	if ((attrs.isDirectory()) && (p != null)) {
@@ -58,6 +71,7 @@ public class MoviePathSearcher implements FileVisitor<Path> {
 		    if (pm.matches(p)) {
 			System.out.println("adding: " + dir);
 			pathsToMovies[pathIndex++] = dir;
+			m.getFilesToInclude().add(dir.toFile());
 		    }
 		}
 	    }

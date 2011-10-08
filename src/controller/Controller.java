@@ -18,6 +18,7 @@ import java.nio.file.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
@@ -61,6 +62,12 @@ public class Controller implements ActionListener, WindowListener, PropertyChang
     public void removeViews(IUpdateView iv) {
 	viewList.remove(iv);
     }
+    
+    public void updateMoviePaths() 
+    {
+	MoviePathSearcher mps = new MoviePathSearcher(model); 
+	
+    }
 
     public void populateMovies() throws IOException {
 	//Get search paths for movies 
@@ -75,7 +82,14 @@ public class Controller implements ActionListener, WindowListener, PropertyChang
 
 	MovieSearcher ms = new MovieSearcher(model);
 	//Get all the paths that supposedly have movies
-	Path[] paths = mps.getPathsToMovies();
+	//Path[] paths = mps.getPathsToMovies();
+	
+	ArrayList<Path> paths = new ArrayList<Path>(); 
+	
+	for(File f : model.getFilesToInclude()){
+	    Path p = Paths.get(f.toURI());
+	    paths.add(p);
+	}
 
 	//search for all the movies within those directories... no limit to depth
 	for (Path path : paths) {

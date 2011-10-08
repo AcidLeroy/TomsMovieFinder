@@ -20,6 +20,7 @@ public class Model implements Serializable{
     private ArrayList<String> searchKeywords;
     private ArrayList<String> searchFormats;
     private ArrayList<File> FilesToExclude; 
+    private ArrayList<File> FilesToInclude; 
     private File vlcLocation; 
     private long minMovieFileSize; 
 
@@ -28,6 +29,7 @@ public class Model implements Serializable{
 	searchKeywords = new ArrayList<String>();
 	searchFormats = new ArrayList<String>();
 	FilesToExclude = new ArrayList<File>(); 
+	FilesToInclude = new ArrayList<File>(); 
 	vlcLocation = new File("C:\\Program Files\\VideoLAN\\VLC\\vlc.exe");
 	//default the search depth to 2;
 	searchDepth = 2; 
@@ -72,6 +74,14 @@ public class Model implements Serializable{
 
     public void setMinMovieFileSize(long minMovieFileSize) {
 	this.minMovieFileSize = minMovieFileSize;
+    }
+
+    public ArrayList<File> getFilesToInclude() {
+	return FilesToInclude;
+    }
+
+    public void setFilesToInclude(ArrayList<File> FilesToInclude) {
+	this.FilesToInclude = FilesToInclude;
     }
     
     

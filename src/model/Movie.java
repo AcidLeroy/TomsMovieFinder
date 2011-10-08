@@ -46,4 +46,27 @@ public class Movie implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (obj == null) {
+	    return false;
+	}
+	if (getClass() != obj.getClass()) {
+	    return false;
+	}
+	final Movie other = (Movie) obj;
+	if (this.movieFile != other.movieFile && (this.movieFile == null || !this.movieFile.equals(other.movieFile))) {
+	    return false;
+	}
+	return true;
+    }
+
+    @Override
+    public int hashCode() {
+	int hash = 3;
+	return hash;
+    }
+    
+    
 }
