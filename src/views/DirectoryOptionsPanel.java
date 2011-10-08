@@ -59,6 +59,7 @@ public class DirectoryOptionsPanel extends javax.swing.JPanel implements IUpdate
         jLabel2 = new javax.swing.JLabel();
         addToIncludedBtn = new javax.swing.JButton();
         addDirectory = new javax.swing.JButton();
+        removeDirectoryBtn = new javax.swing.JButton();
 
         addDirectoryChooser.setCurrentDirectory(new java.io.File("C:\\"));
             addDirectoryChooser.setDialogTitle("Add a Directory with Movies");
@@ -103,6 +104,13 @@ public class DirectoryOptionsPanel extends javax.swing.JPanel implements IUpdate
                 }
             });
 
+            removeDirectoryBtn.setText("Remove Directory");
+            removeDirectoryBtn.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    removeDirectoryBtnActionPerformed(evt);
+                }
+            });
+
             javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
             this.setLayout(layout);
             layout.setHorizontalGroup(
@@ -120,7 +128,10 @@ public class DirectoryOptionsPanel extends javax.swing.JPanel implements IUpdate
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel2)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addComponent(addDirectory)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(addDirectory)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(removeDirectoryBtn))
             );
 
             layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jScrollPane1, jScrollPane2});
@@ -143,7 +154,9 @@ public class DirectoryOptionsPanel extends javax.swing.JPanel implements IUpdate
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 158, Short.MAX_VALUE))))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addComponent(addDirectory))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(addDirectory)
+                        .addComponent(removeDirectoryBtn)))
             );
 
             layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jScrollPane1, jScrollPane2});
@@ -178,6 +191,15 @@ public class DirectoryOptionsPanel extends javax.swing.JPanel implements IUpdate
 	updateView(); 
     }//GEN-LAST:event_addToIncludedBtnActionPerformed
 
+    private void removeDirectoryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeDirectoryBtnActionPerformed
+	List<File> ls = includedList.getSelectedValuesList();
+	Model m = controller.getModel();
+	for(File f : ls){
+	    m.getFilesToInclude().remove(f);
+	}
+	updateView(); 
+    }//GEN-LAST:event_removeDirectoryBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addDirectory;
     private javax.swing.JFileChooser addDirectoryChooser;
@@ -189,6 +211,7 @@ public class DirectoryOptionsPanel extends javax.swing.JPanel implements IUpdate
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton removeDirectoryBtn;
     // End of variables declaration//GEN-END:variables
 
     @Override

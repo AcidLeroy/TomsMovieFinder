@@ -156,20 +156,14 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 		col[2] = m.getSize();
 		movieHash.put(m.getTitle(), m);
 		tModel.addRow(col);
-		System.out.println("Class is:"+tModel.getColumnClass(2));
+		
 	    }
 	}
-
 
 	movieTable.setModel(tModel);
 
 	movieTable.getColumnModel().getColumn(0).setPreferredWidth(400);
 	movieTable.getColumnModel().getColumn(1).setPreferredWidth(60);
-	//movieTable.getColumnModel().getColumn(2).
-
-
-
-	System.out.println("called update views");
 
     }
 
