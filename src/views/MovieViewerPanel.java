@@ -42,16 +42,31 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	    public boolean isCellEditable(int rowIndex, int colIndex) {
 		return false;
 	    }
+
+	    @Override
+	    public Class<?> getColumnClass(int index) {
+		if(index == 0){
+		    return String.class;
+		} 
+		if(index == 1){
+		    return String.class;
+		}
+		if(index == 2){
+		    return Long.class;
+		}
+		return String.class;
+	    }
 	};
-	
-	
+
+
 	tableSort = new TableRowSorter<DefaultTableModel>(tModel);
 	movieTable.setRowSorter(tableSort);
 	movieTable.setModel(tModel);
 	tModel.addColumn("Title");
 	tModel.addColumn("Format");
 	tModel.addColumn("Size (MB)");
-	
+
+
 
     }
 
@@ -119,18 +134,18 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 
 	movieHash.clear();
 
-	
+
 	int c = tModel.getRowCount();
-	for(int i = c-1; i>= 0; i--){
+	for (int i = c - 1; i >= 0; i--) {
 	    tModel.removeRow(i);
 	    movieTable.revalidate();
 	}
-	
+
 	if (model.getMovies().getMovieList().isEmpty()) {
 	    System.out.println("movie list is empty");
 	    col[0] = "";
 	    col[1] = "";
-	    col[2] = ""; 
+	    col[2] = "";
 	    tModel.addRow(col);
 	}
 
@@ -138,9 +153,10 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	    if (m.getSize() > model.getMinMovieFileSize()) {
 		col[0] = m.getTitle();
 		col[1] = m.getFormat();
-		col[2] = m.getSize(); 
+		col[2] = m.getSize();
 		movieHash.put(m.getTitle(), m);
 		tModel.addRow(col);
+		System.out.println("Class is:"+tModel.getColumnClass(2));
 	    }
 	}
 
@@ -151,7 +167,7 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	movieTable.getColumnModel().getColumn(1).setPreferredWidth(60);
 	//movieTable.getColumnModel().getColumn(2).
 
-	
+
 
 	System.out.println("called update views");
 
