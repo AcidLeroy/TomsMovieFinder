@@ -64,7 +64,7 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	movieTable.setModel(tModel);
 	tModel.addColumn("Title");
 	tModel.addColumn("Format");
-	tModel.addColumn("Size (MB)");
+	tModel.addColumn("Size (GB)");
 
 
 
@@ -150,6 +150,7 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	}
 
 	for (Movie m : model.getMovies().getMovieList()) {
+            System.out.println("size is: "+m.getSize()+"min size is: "+model.getMinMovieFileSize());
 	    if (m.getSize() > model.getMinMovieFileSize()) {
 		col[0] = m.getTitle();
 		col[1] = m.getFormat();

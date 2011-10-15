@@ -49,9 +49,9 @@ public class LimitSizePanel extends javax.swing.JPanel implements IUpdateView{
 
         jLabel1.setText("Minimum File Size:");
 
-        minFileSize.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getIntegerInstance())));
+        minFileSize.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
 
-        jLabel2.setText("MB");
+        jLabel2.setText("GB");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -82,6 +82,6 @@ public class LimitSizePanel extends javax.swing.JPanel implements IUpdateView{
     @Override
     public void updateView() {
 	Model m = controller.getModel(); 
-	minFileSize.setValue(new Long(m.getMinMovieFileSize()));
+	minFileSize.setValue(new Float(m.getMinMovieFileSize()));
     }
 }

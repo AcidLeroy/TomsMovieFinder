@@ -199,7 +199,7 @@ public class Controller implements ActionListener, WindowListener, PropertyChang
 		Number num = (Number) jtf.getValue();
 
 		if (num != null) {
-		    model.setMinMovieFileSize(num.longValue());
+		    model.setMinMovieFileSize(num.floatValue());
 		    updateViews();
 		}
 

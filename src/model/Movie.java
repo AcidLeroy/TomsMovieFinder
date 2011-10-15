@@ -14,13 +14,14 @@ public class Movie implements Serializable {
     private String title;
     private String description;
     private String format;
-    private long size;
+    private float size;
 
     public Movie(File FileToMovie, String title, String format) {
         movieFile = FileToMovie;
         this.title = title; 
         this.format = format;
-        size = FileToMovie.length()/1048576; //convert bytes to megabytes
+        float d = FileToMovie.length(); 
+        size = (float)(d/1073741824); //convert bytes to megabytes
     }
 
     public String getDescription() {
@@ -35,7 +36,7 @@ public class Movie implements Serializable {
         return movieFile;
     }
 
-    public long getSize() {
+    public float getSize() {
         return size;
     }
 
