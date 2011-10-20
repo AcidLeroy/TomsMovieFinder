@@ -11,9 +11,18 @@
 package views;
 
 import controller.Controller;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.RowFilter;
+import javax.swing.RowFilter.ComparisonType;
 import javax.swing.RowSorter;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.*;
 import model.Model;
 import model.Movie;
@@ -27,7 +36,9 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
     private DefaultTableModel tModel;
     private Controller controller;
     private HashMap<String, Movie> movieHash;
-    private RowSorter<DefaultTableModel> tableSort;
+    // private RowSorter<DefaultTableModel> tableSort;
+    private TableRowSorter<DefaultTableModel> tableSort;
+    //   private TableRowSorter<DefaultTableModel> sorter;
 
     /** Creates new form MovieViewerPanel */
     public MovieViewerPanel(Controller controller) {
@@ -35,6 +46,7 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	this.controller = controller;
 
 	initComponents();
+
 	movieHash = new HashMap<String, Movie>();
 	tModel = new DefaultTableModel() {
 
@@ -45,22 +57,23 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 
 	    @Override
 	    public Class<?> getColumnClass(int index) {
-		if(index == 0){
-		    return String.class;
-		} 
-		if(index == 1){
+		if (index == 0) {
 		    return String.class;
 		}
-		if(index == 2){
-		    return Long.class;
+		if (index == 1) {
+		    return String.class;
+		}
+		if (index == 2) {
+		    return Float.class;
 		}
 		return String.class;
 	    }
 	};
 
-
 	tableSort = new TableRowSorter<DefaultTableModel>(tModel);
 	movieTable.setRowSorter(tableSort);
+	//sorter = new TableRowSorter<DefaultTableModel>(tModel);
+	//movieTable.setRowSorter(sorter);
 	movieTable.setModel(tModel);
 	tModel.addColumn("Title");
 	tModel.addColumn("Format");
@@ -68,6 +81,83 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 
 
 
+	sizeFilterText.getDocument().addDocumentListener(new DocumentListener() {
+
+	    @Override
+	    public void changedUpdate(DocumentEvent e) {
+
+		updateFilters();
+	    }
+
+	    @Override
+	    public void removeUpdate(DocumentEvent e) {
+		updateFilters();
+	    }
+
+	    @Override
+	    public void insertUpdate(DocumentEvent e) {
+		updateFilters();
+	    }
+	});
+
+
+	// Listen for changes in the title text 
+	textToSearchField.getDocument().addDocumentListener(new DocumentListener() {
+
+	    @Override
+	    public void changedUpdate(DocumentEvent e) {
+		updateFilters();
+
+	    }
+
+	    @Override
+	    public void removeUpdate(DocumentEvent e) {
+		updateFilters();
+	    }
+
+	    @Override
+	    public void insertUpdate(DocumentEvent e) {
+		updateFilters();
+	    }
+	});
+    }
+
+    public void updateFilters() {
+
+	try {
+	    sizeFilterText.commitEdit();
+	} catch (ParseException ex) {
+	    // sizeFilterText.setValue(new Integer(0));
+	    //   Logger.getLogger(MovieViewerPanel.class.getName()).log(Level.SEVERE, null, ex);
+	}
+
+	RowFilter<DefaultTableModel, Object> titleFilter = null;
+	RowFilter<DefaultTableModel, Object> sizeFilter = null;
+	List<RowFilter<DefaultTableModel, Object>> filters = new ArrayList<RowFilter<DefaultTableModel, Object>>();
+	RowFilter<DefaultTableModel, Object> compoundRowFilter = null;
+
+
+	//If current expression doesn't parse, don't update.
+	try {
+	    titleFilter = RowFilter.regexFilter(textToSearchField.getText(), 0);
+	    Number n = (Number) sizeFilterText.getValue();
+	    if (n == null) {
+		n = new Float(0);
+	    }
+	    sizeFilter = RowFilter.numberFilter(ComparisonType.AFTER, n.floatValue(), 2);
+
+	    filters.add(titleFilter);
+	    filters.add(sizeFilter);
+	    compoundRowFilter = RowFilter.andFilter(filters);
+
+
+	} catch (java.util.regex.PatternSyntaxException e) {
+	    System.out.println("bad regex");
+	    return;
+	}
+
+	tableSort.setRowFilter(compoundRowFilter);
+	movieTable.setRowSorter(tableSort);
     }
 
     public MovieViewerPanel() {
@@ -85,6 +175,10 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 
         jScrollPane1 = new javax.swing.JScrollPane();
         movieTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        textToSearchField = new javax.swing.JTextField();
+        sizeFilterText = new javax.swing.JFormattedTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         movieTable.setAutoCreateRowSorter(true);
         movieTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -110,20 +204,55 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
         movieTable.setUpdateSelectionOnSort(false);
         jScrollPane1.setViewportView(movieTable);
 
+        jLabel1.setText("Title Filter: ");
+
+        textToSearchField.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                textToSearchFieldPropertyChange(evt);
+            }
+        });
+
+        sizeFilterText.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+
+        jLabel2.setText("Size Filter (GB):");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(textToSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(sizeFilterText, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(163, 163, 163))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(textToSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sizeFilterText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void textToSearchFieldPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_textToSearchFieldPropertyChange
+    }//GEN-LAST:event_textToSearchFieldPropertyChange
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable movieTable;
+    private javax.swing.JFormattedTextField sizeFilterText;
+    private javax.swing.JTextField textToSearchField;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -150,15 +279,11 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	}
 
 	for (Movie m : model.getMovies().getMovieList()) {
-            System.out.println("size is: "+m.getSize()+"min size is: "+model.getMinMovieFileSize());
-	    if (m.getSize() > model.getMinMovieFileSize()) {
-		col[0] = m.getTitle();
-		col[1] = m.getFormat();
-		col[2] = m.getSize();
-		movieHash.put(m.getTitle(), m);
-		tModel.addRow(col);
-		
-	    }
+	    col[0] = m.getTitle();
+	    col[1] = m.getFormat();
+	    col[2] = m.getSize();
+	    movieHash.put(m.getTitle(), m);
+	    tModel.addRow(col);
 	}
 
 	movieTable.setModel(tModel);
@@ -172,5 +297,16 @@ public class MovieViewerPanel extends javax.swing.JPanel implements IUpdateView 
 	int sRow = movieTable.getSelectedRow();
 	Movie m = movieHash.get(movieTable.getValueAt(sRow, 0));
 	return m;
+    }
+
+    private void newFilter() {
+//	RowFilter<tModel, Object> rf = null;
+//	//If current expression doesn't parse, don't update.
+//	try {
+//	    rf = RowFilter.regexFilter(filterText.getText(), 0);
+//	} catch (java.util.regex.PatternSyntaxException e) {
+//	    return;
+//	}
+//	sorter.setRowFilter(rf);
     }
 }
